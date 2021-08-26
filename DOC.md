@@ -315,7 +315,7 @@ APP_CALLBACK="https://api.telegram.org/bot<TOKEN>/sendMessage?chat_id=<CHAR_ID>&
 http://live.bilibili.com/9522051
 ```
 
-长位直播间ID获取
+长位直间ID获取
 
 ```
 https://api.live.bilibili.com/room/v1/Room/room_init?id=3
