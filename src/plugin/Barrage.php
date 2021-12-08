@@ -19,6 +19,9 @@ class Barrage
 {
     use TimeLock;
 
+    /**
+     * @use run
+     */
     public static function run()
     {
         if (self::getLock() > time() || !getEnable('barrage')) {
@@ -26,7 +29,7 @@ class Barrage
         }
         self::setPauseStatus();
         if (self::sendMsg()) {
-            self::setLock(mt_rand(40, 80) * 60);
+            self::setLock(mt_rand(240, 300) * 60);
             return;
         }
         self::setLock(15 * 60);

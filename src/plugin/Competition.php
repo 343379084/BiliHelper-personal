@@ -19,7 +19,8 @@ class Competition
     use TimeLock;
 
     /**
-     * @use 赛事入口 https://www.bilibili.com/v/game/match/competition
+     * @use run
+     * @doc 赛事入口 https://www.bilibili.com/v/game/match/competition
      */
     public static function run()
     {
@@ -88,7 +89,7 @@ class Competition
         $guess['oid'] = $question['contest']['id'];
         $guess['main_id'] = $question['questions'][0]['id'];
         $details = $question['questions'][0]['details'];
-        $guess['count'] = ($count = getConf('max_coin', 'match_forecast') <= 10) ? $count : 10;
+        $guess['count'] = (($count = getConf('max_coin', 'match_forecast')) <= 10) ? $count : 10;
         $guess['title'] = $question['questions'][0]['title'];
         foreach ($details as $detail) {
             $guess['title'] .= " 队伍: {$detail['option']} 赔率: {$detail['odds']}";

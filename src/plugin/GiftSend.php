@@ -26,7 +26,9 @@ class GiftSend
     protected static array $room_list = [];
     protected static array $medal_list = [];
 
-
+    /**
+     * @use run
+     */
     public static function run()
     {
         if (self::getLock() > time() || !self::inTime('23:50:00', '23:59:50')) {
@@ -73,14 +75,14 @@ class GiftSend
             }
             $current_intimacy = 0;
             foreach ($bag_list as $gift) {
-                // 是辣条、亿元 && 不是过期礼物
-                if (!in_array($gift['gift_id'], [1, 6])) {
+                // 是辣条、亿元 && 不是过期礼物 加入小心心，暂不清楚是否有逻辑冲突
+                if (!in_array($gift['gift_id'], [1, 6, 30607])) {
                     continue;
                 }
                 Log::notice("直播间 $room_id 需赠送亲密度 $total_intimacy 剩余亲密度 " . ($total_intimacy - $current_intimacy));
                 $amt = self::calcAmt($gift, $total_intimacy - $current_intimacy);
                 self::sendGift($gift, $amt);
-                $current_intimacy += ($gift['gift_id'] == 6) ? ($amt * 10) : $amt;
+                $current_intimacy += ($gift['gift_id'] == 30607) ? ($amt * 50) : (($gift['gift_id'] == 6) ? ($amt * 10) : $amt);
                 if (!($current_intimacy - $total_intimacy)) {
                     Log::notice("直播间 $room_id 亲密度 $total_intimacy 送满啦~送满啦~");
                     break;
@@ -247,6 +249,9 @@ class GiftSend
         }
         if ($gift['gift_id'] == 6) {
             $amt = (floor($surplus_num / 10) > $gift['gift_num']) ? $gift['gift_num'] : floor($surplus_num / 10);
+        }
+        if ($gift['gift_id'] == 30607) {
+            $amt = (floor($surplus_num / 50) > $gift['gift_num']) ? $gift['gift_num'] : floor($surplus_num / 50);
         }
         return ($amt < 1) ? 1 : $amt;
     }

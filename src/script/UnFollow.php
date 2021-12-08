@@ -17,6 +17,7 @@ class UnFollow extends BaseTask
     public static string $description = '批量清理选定分组关注，默认单次最大清理600个关注.';
 
     /**
+     * @use run
      * @throws \Exception
      */
     public static function run()
@@ -77,7 +78,7 @@ class UnFollow extends BaseTask
      * @return array
      * @throws \Exception
      */
-    private static function relationTag($tag_id, int $max_pn = 30, int $max_ps = 20): array
+    private static function relationTag($tag_id, int $max_pn = 60, int $max_ps = 20): array
     {
         $following = [];
         $url = 'https://api.bilibili.com/x/relation/tag';
